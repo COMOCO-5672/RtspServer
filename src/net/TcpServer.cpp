@@ -15,6 +15,7 @@ TcpServer::TcpServer(EventLoop* event_loop)
 {
 	acceptor_->SetNewConnectionCallback([this](SOCKET sockfd) {
 		TcpConnection::Ptr conn = this->OnConnect(sockfd);
+		LOG_INFO("add connection %p", sockfd);
 		if (conn) {
 			this->AddConnection(sockfd, conn);
 			conn->SetDisconnectCallback([this](TcpConnection::Ptr conn) {

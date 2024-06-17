@@ -6,6 +6,7 @@
 #include "MediaSession.h"
 #include "MediaSource.h"
 #include "net/SocketUtil.h"
+#include "net/Logger.h"
 
 #define USER_AGENT "-_-"
 #define RTSP_DEBUG 0
@@ -226,6 +227,7 @@ void RtspConnection::HandleCmdOption()
 {
 	std::shared_ptr<char> res(new char[2048], std::default_delete<char[]>());
 	int size = rtsp_request_->BuildOptionRes(res.get(), 2048);
+	LOG_INFO("%s, rtsp option:%s", __FUNCTION__, res.get());
 	this->SendRtspMessage(res, size);	
 }
 
@@ -264,6 +266,7 @@ void RtspConnection::HandleCmdDescribe()
 		}
 
 		std::string sdp = media_session->GetSdpMessage(SocketUtil::GetSocketIp(this->GetSocket()), rtsp->GetVersion());
+		LOG_INFO("%s, sdp: \r\n %s", __FUNCTION__, sdp.c_str());
 		if(sdp == "") {
 			size = rtsp_request_->BuildServerErrorRes(res.get(), 4096);
 		}
@@ -344,7 +347,7 @@ void RtspConnection::HandleCmdSetup()
 			goto transport_unsupport;
 		}
 	}
-
+	LOG_INFO("%s,setup info:%s \r\n", __FUNCTION__, res.get());
 	SendRtspMessage(res, size);
 	return ;
 
@@ -378,6 +381,7 @@ void RtspConnection::HandleCmdPlay()
 	std::shared_ptr<char> res(new char[2048], std::default_delete<char[]>());
 
 	int size = rtsp_request_->BuildPlayRes(res.get(), 2048, nullptr, session_id);
+	LOG_INFO("%s, rtsp play:%s", __FUNCTION__, res.get());
 	SendRtspMessage(res, size);
 }
 
@@ -392,6 +396,7 @@ void RtspConnection::HandleCmdTeardown()
 	uint16_t session_id = rtp_conn_->GetRtpSessionId();
 	std::shared_ptr<char> res(new char[2048], std::default_delete<char[]>());
 	int size = rtsp_request_->BuildTeardownRes(res.get(), 2048, session_id);
+	LOG_INFO("%s, tear-down:%s", __FUNCTION__, res.get());
 	SendRtspMessage(res, size);
 
 	//HandleClose();
@@ -406,6 +411,8 @@ void RtspConnection::HandleCmdGetParamter()
 	uint16_t session_id = rtp_conn_->GetRtpSessionId();
 	std::shared_ptr<char> res(new char[2048], std::default_delete<char[]>());
 	int size = rtsp_request_->BuildGetParamterRes(res.get(), 2048, session_id);
+
+	LOG_INFO("%s, get paramter:%s", __FUNCTION__, res.get());
 	SendRtspMessage(res, size);
 }
 

@@ -34,7 +34,7 @@ int Acceptor::Listen(std::string ip, uint16_t port)
 	if (!tcp_socket_->Bind(ip, port)) {
 		return -1;
 	}
-
+	printf("%s, acceptor port:%d \r\n", __FUNCTION__, port);
 	if (!tcp_socket_->Listen(1024)) {
 		return -1;
 	}

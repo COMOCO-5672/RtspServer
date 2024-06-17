@@ -9,6 +9,7 @@
 
 #include "RtspMessage.h"
 #include "media.h"
+#include "net/Logger.h"
 
 using namespace std;
 using namespace xop;
@@ -60,7 +61,7 @@ bool RtspRequest::ParseRequestLine(const char* begin, const char* end)
 	char method[64] = {0};
 	char url[512] = {0};
 	char version[64] = {0};
-
+	LOG_INFO("%s, parse req line: %s \r\n", __FUNCTION__, message.c_str());
 	if(sscanf(message.c_str(), "%s %s %s", method, url, version) != 3) {
 		return true; 
 	}

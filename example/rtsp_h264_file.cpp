@@ -1,6 +1,7 @@
 // RTSP Server
 
 #include "xop/RtspServer.h"
+#include "net/Logger.h"
 #include "net/Timer.h"
 #include <thread>
 #include <memory>
@@ -60,7 +61,8 @@ int main(int argc, char **argv)
 #ifdef AUTH_CONFIG
 	server->SetAuthConfig("-_-", "admin", "12345");
 #endif
-
+	std::string str("E:\\CCLiveClient\\github\\RtspServer\\VS2017\\x64\\Debug\\rtsp_info.log");
+	xop::Logger::Instance().Init( const_cast<char *>(str.c_str()));
 	xop::MediaSession *session = xop::MediaSession::CreateNew("live"); 
 	session->AddSource(xop::channel_0, xop::H264Source::CreateNew()); 
 	//session->StartMulticast(); 

@@ -20,7 +20,7 @@ TaskScheduler::TaskScheduler(int id)
 		}
 #endif
 	});
-
+	printf("%s, create TaskScheduler \r\n", __FUNCTION__);
 	if (wakeup_pipe_->Create()) {
 		wakeup_channel_.reset(new Channel(wakeup_pipe_->Read()));
 		wakeup_channel_->EnableReading();
@@ -35,6 +35,7 @@ TaskScheduler::~TaskScheduler()
 
 void TaskScheduler::Start()
 {
+	printf("%s will start \r\n", __FUNCTION__);
 #if defined(__linux) || defined(__linux__) 
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);

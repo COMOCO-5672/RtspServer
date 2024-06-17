@@ -6,6 +6,7 @@
 #include <random>
 #include <string>
 #include <array>
+#include "net/Logger.h"
 
 using namespace xop;
 
@@ -16,6 +17,7 @@ Pipe::Pipe()
 
 bool Pipe::Create()
 {
+	LOG_INFO("%s \r\n", __FUNCTION__);
 #if defined(WIN32) || defined(_WIN32) 
 	TcpSocket rp(socket(AF_INET, SOCK_STREAM, 0)), wp(socket(AF_INET, SOCK_STREAM, 0));
 	std::random_device rd;
@@ -31,7 +33,7 @@ bool Pipe::Create()
 			break;
 		}		
 	}
-
+	LOG_INFO("%s, pipe port:%d \r\n", __FUNCTION__, port);
 	if (again == 0) {
 		return false;
 	}
