@@ -15,6 +15,11 @@ Pipe::Pipe()
 
 }
 
+Pipe::~Pipe()
+{
+	Close();
+}
+
 bool Pipe::Create()
 {
 	LOG_INFO("%s \r\n", __FUNCTION__);
